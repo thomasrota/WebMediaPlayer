@@ -1,0 +1,5 @@
+{
+    "require": {
+        "duncan3dc/meta-audio": "^0.6.0"
+    }
+}
