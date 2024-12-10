@@ -1,0 +1,31 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #000;
+  color: #fff;
+}
+
+.card {
+  background-color: #333;
+  border: 1px solid #1db954;
+}
+
+.card-title,
+.form-label,
+.alert,
+a {
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #1db954;
+  border-color: #1db954;
+}
+
+.btn-primary:hover {
+  background-color: #20c459 !important;
+  border-color: #20c459 !important;
+}
+
+.hr-green {
+  border-color: #1db954;
+}
