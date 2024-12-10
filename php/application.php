@@ -48,56 +48,67 @@ $pfp = $user['immagine'];
              
         </header>
         <main>
-            <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-                <a href="" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                    <img src="../assets/logo.png" alt="Logo" width="40" height="40" class="me-2">
-                    <span class="fs-4">WebMediaPlayer</span>
-                </a>
-                <hr>
-                <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active" aria-current="page">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-                    Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                    Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-                    Orders
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-                    Products
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                    Customers
-                    </a>
-                </li>
-                </ul>
-                <hr>
-                <div class="dropdown">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../usrimg/<?php echo htmlspecialchars($pfp); ?>" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong><?php echo htmlspecialchars($username); ?></strong>
-                </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
-                </ul>
+            <div class="container-fluid">
+                <div class="row flex-nowrap">
+                    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
+                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                            <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                                <img src="../assets/logo.png" alt="Logo" width="40" height="40" class="me-2">
+                                <span class="fs-5 d-none d-sm-inline">WebMediaPlayer</span>
+                            </a>
+                            <hr class="w-100">
+                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link active text-white" aria-current="page">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                                        <span class="d-none d-sm-inline">Home</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link text-white">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                                        <span class="d-none d-sm-inline">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link text-white">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+                                        <span class="d-none d-sm-inline">Orders</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link text-white">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                                        <span class="d-none d-sm-inline">Products</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link text-white">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+                                        <span class="d-none d-sm-inline">Customers</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr class="w-100">
+                            <div class="dropdown pb-4 mt-auto">
+                                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="../usrimg/<?php echo htmlspecialchars($pfp); ?>" alt="" width="30" height="30" class="rounded-circle">
+                                    <span class="d-none d-sm-inline mx-1"><?php echo htmlspecialchars($username); ?></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col py-3">
+                        <!-- Contenuto aggiuntivo -->
+                        <h1>Benvenuto in WebMediaPlayer</h1>
+                        <p>Questo è il contenuto principale della pagina.</p>
+                    </div>
                 </div>
             </div>
         </main>
