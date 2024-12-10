@@ -1,22 +1,24 @@
 <?php
 session_start();
-require 'conf.php'; // Importa il file di connessione
+if (!isset($conn) || $conn == null) {
+    require 'conf.php';
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'] ?? '';
+    $login = $_POST['login'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if (!empty($username) && !empty($password)) {
+    if (!empty($login) && !empty($password)) {
         try {
-            $stmt = $conn->prepare("SELECT id, password FROM WBM_utente WHERE username = :username");
-            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt = $conn->prepare("SELECT id, password FROM WBM_utente WHERE username = :login OR email = :login");
+            $stmt->bindParam(':login', $login, PDO::PARAM_STR);
             $stmt->execute();
 
             if ($stmt->rowCount() == 1) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (password_verify($password, $user['password'])) {
-                    $_SESSION['user_id'] = $user['id']; // Imposta la sessione
-                    header("Location: dashboard.php"); // Reindirizza alla dashboard
+                    $_SESSION['user_id'] = $user['id'];
+                    header("Location: application.php");
                     exit();
                 } else {
                     $error = "Password errata.";
@@ -28,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Errore di sistema: " . $e->getMessage();
         }
     } else {
-        $error = "Inserisci username e password.";
+        $error = "Inserisci username/email e password.";
     }
 }
 ?>
@@ -53,8 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php endif; ?>
                 <form method="POST">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Inserisci username" required>
+                        <label for="login" class="form-label">Username o Email</label>
+                        <input type="text" class="form-control" id="login" name="login" placeholder="Inserisci username o email" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>

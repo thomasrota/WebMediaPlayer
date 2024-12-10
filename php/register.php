@@ -1,5 +1,7 @@
 <?php
-require 'conf.php'; // Connessione al database
+if (!isset($conn) || $conn == null) {
+    require 'conf.php';
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'] ?? '';
