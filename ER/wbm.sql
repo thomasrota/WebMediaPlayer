@@ -82,7 +82,7 @@ CREATE TABLE `WBM_utente` (
   `username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `immagine` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `immagine` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'default.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

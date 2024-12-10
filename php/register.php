@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="../css/style.css?v=4.15">
+        <link rel="icon" href="../assets/logo.png" type="image/x-icon">
     </head>
 
     <body>
@@ -73,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h3 class="card-title text-center">Registrati</h3>
                     <hr class="hr-green" style="margin-bottom: 2vw">
                     <?php if (isset($error)): ?>
-                        <div class="alert alert-danger text-center" role="alert">
+                        <div class="alert alert-danger text-center" style="background-color:  #cc0c0c; border-color: #890c0c;" role="alert">
                             <?php echo $error; ?>
                         </div>
                     <?php endif; ?>
