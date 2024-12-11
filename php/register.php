@@ -4,8 +4,8 @@ if (!isset($conn) || $conn == null) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'] ?? '';
-    $email = $_POST['email'] ?? '';
+    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
     $error = '';
@@ -13,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validazione dati
     if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
         $error = "Tutti i campi sono obbligatori.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "L'email non è valida.";
     } elseif ($password !== $confirm_password) {
         $error = "Le password non corrispondono.";
     } else {
@@ -75,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <hr class="hr-green" style="margin-bottom: 2vw">
                     <?php if (isset($error)): ?>
                         <div class="alert alert-danger text-center" style="background-color:  #cc0c0c; border-color: #890c0c;" role="alert">
-                            <?php echo $error; ?>
+                            <?php echo htmlspecialchars($error); ?>
                         </div>
                     <?php endif; ?>
                     <form method="POST">
