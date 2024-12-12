@@ -71,7 +71,7 @@ $pfp = $user['immagine'];
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link text-white">
+                                    <a href="./uploadTrack.php" class="nav-link text-white">
                                         <img src="../assets/uploadw.png" alt="upload" class="bi me-2" width="16" height="16">
                                         <span class="d-none d-sm-inline">Carica brano</span>
                                     </a>
@@ -97,7 +97,6 @@ $pfp = $user['immagine'];
                         </div>
                     </div>
                     <div class="col py-3">
-                        <!-- Contenuto aggiuntivo -->
                         <h1>Benvenuto in WebMediaPlayer</h1>
                         <p>Questo è il contenuto principale della pagina.</p>
                     </div>
