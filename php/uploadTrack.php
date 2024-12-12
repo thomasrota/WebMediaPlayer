@@ -243,8 +243,8 @@ $pfp = $user['immagine'];
                                         <input type="text" class="form-control" id="year" name="year" value="<?php echo htmlspecialchars($year); ?>" readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="duration" class="form-label">Durata</label>
-                                        <input type="text" class="form-control" id="duration" name="duration" required>
+                                        <label for="duration" class="form-label">Durata (minuti:secondi)</label>
+                                        <input type="text" class="form-control" id="duration" name="duration" pattern="[0-9]{1,2}:[0-9]{2}" placeholder="MM:SS" required>
                                     </div>
                                     <input type="hidden" name="filePath" value="<?php echo htmlspecialchars($targetFile); ?>">
                                     <button type="submit" class="btn btn-primary">Conferma</button>
