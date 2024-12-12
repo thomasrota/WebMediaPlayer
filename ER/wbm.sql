@@ -67,8 +67,7 @@ CREATE TABLE `WBM_brano` (
   `id` int NOT NULL,
   `titolo` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `id_album` int NOT NULL,
-  `mp3` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `durata` time DEFAULT NULL
+  `mp3` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
