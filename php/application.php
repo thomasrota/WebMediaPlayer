@@ -66,40 +66,32 @@ $pfp = $user['immagine'];
                                 </li>
                                 <li class="nav-item w-100">
                                     <a href="#" class="nav-link text-white">
-                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                                        <span class="d-none d-sm-inline">Dashboard</span>
+                                        <img src="../assets/srcw.png" alt="search" class="bi me-2" width="16" height="16">
+                                        <span class="d-none d-sm-inline">Cerca</span>
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
                                     <a href="#" class="nav-link text-white">
-                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-                                        <span class="d-none d-sm-inline">Orders</span>
+                                        <img src="../assets/uploadw.png" alt="upload" class="bi me-2" width="16" height="16">
+                                        <span class="d-none d-sm-inline">Carica brano</span>
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
                                     <a href="#" class="nav-link text-white">
-                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-                                        <span class="d-none d-sm-inline">Products</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item w-100">
-                                    <a href="#" class="nav-link text-white">
-                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                        <span class="d-none d-sm-inline">Customers</span>
+                                        <img src="../assets/libw.png" alt="upload" class="bi me-2" width="16" height="16">
+                                        <span class="d-none d-sm-inline">La tua libreria</span>
                                     </a>
                                 </li>
                             </ul>
-                            <hr class="w-100">
                             <div class="dropdown pb-4 mt-auto">
                                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="../usrimg/<?php echo htmlspecialchars($pfp); ?>" alt="" width="30" height="30" class="rounded-circle">
                                     <span class="d-none d-sm-inline mx-1"><?php echo htmlspecialchars($username); ?></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
                                     <li><a class="dropdown-item" href="./profile.php">Profilo</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
+                                    <li><a class="dropdown-item" href="./logout.php">Logout</a></li>
                                 </ul>
                             </div>
                         </div>

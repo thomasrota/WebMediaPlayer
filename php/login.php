@@ -4,9 +4,21 @@ if (!isset($conn) || $conn == null) {
     require 'conf.php';
 }
 
+if (isset($_SESSION['user_id'])) {
+    header('Location: application.php');
+    exit();
+}
+
+if (isset($_COOKIE['user_id'])) {
+    $_SESSION['user_id'] = $_COOKIE['user_id'];
+    header('Location: application.php');
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST['login'] ?? '';
     $password = $_POST['password'] ?? '';
+    $remember = isset($_POST['remember']);
 
     if (!empty($login) && !empty($password)) {
         try {
@@ -18,6 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (password_verify($password, $user['password'])) {
                     $_SESSION['user_id'] = $user['id'];
+
+                    if ($remember) {
+                        setcookie('user_id', $user['id'], time() + (30 * 24 * 60 * 60), "/");
+                    }
+
                     header("Location: application.php");
                     exit();
                 } else {
@@ -76,6 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Inserisci password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" style="color: white;" for="remember">Ricordami</label>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Accedi</button>
