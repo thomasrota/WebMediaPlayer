@@ -101,7 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bindParam(':trackId', $trackId, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $uploadSuccess = "Brano caricato con successo!";
+                header("Location: application.php");
+                exit(); 
             } catch (PDOException $e) {
                 $uploadError = "Errore di sistema: " . $e->getMessage();
             }
@@ -203,8 +204,6 @@ $pfp = $user['immagine'];
                         </div>
                     </div>
                     <div class="col py-3">
-                        <h1>Benvenuto in WebMediaPlayer</h1>
-                        <p>Questo è il contenuto principale della pagina.</p>
                         <div class="container">
                             <h2>Carica un nuovo brano</h2>
                             <?php if (isset($uploadError) && $uploadError): ?>
