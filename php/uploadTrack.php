@@ -249,19 +249,19 @@ $pfp = $user['immagine'];
                                 <form action="uploadTrack.php" method="post">
                                     <div class="mb-3">
                                         <label for="trackTitle" class="form-label">Titolo del brano</label>
-                                        <input type="text" class="form-control" id="trackTitle" name="trackTitle" value="<?php echo htmlspecialchars($trackTitle); ?>" readonly>
+                                        <input type="text" class="form-control" id="trackTitle" name="trackTitle" value="<?php echo htmlspecialchars($trackTitle); ?>">
                                     </div>
                                     <div class="mb-3">
                                         <label for="artist" class="form-label">Artista</label>
-                                        <input type="text" class="form-control" id="artist" name="artist" value="<?php echo htmlspecialchars($artist); ?>" readonly>
+                                        <input type="text" class="form-control" id="artist" name="artist" value="<?php echo htmlspecialchars($artist); ?>">
                                     </div>
                                     <div class="mb-3">
                                         <label for="album" class="form-label">Album</label>
-                                        <input type="text" class="form-control" id="album" name="album" value="<?php echo htmlspecialchars($album); ?>" readonly>
+                                        <input type="text" class="form-control" id="album" name="album" value="<?php echo htmlspecialchars($album); ?>">
                                     </div>
                                     <div class="mb-3">
                                         <label for="year" class="form-label">Anno</label>
-                                        <input type="text" class="form-control" id="year" name="year" value="<?php echo htmlspecialchars($year); ?>" readonly>
+                                        <input type="text" class="form-control" id="year" name="year" value="<?php echo htmlspecialchars($year); ?>">
                                     </div>
                                     <input type="hidden" name="filePath" value="<?php echo htmlspecialchars(basename($targetFile)); ?>">
                                     <button type="submit" class="btn btn-primary">Conferma</button>
