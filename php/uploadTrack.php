@@ -174,20 +174,34 @@ $pfp = $user['immagine'];
         <main>
             <div class="container-fluid">
                 <div class="row flex-nowrap">
-                    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
                         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                            <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                                <span class="fs-5 d-none d-sm-inline">Menu</span>
+                            <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                                <img src="../assets/logo.png" alt="Logo" width="40" height="40" class="me-2">
+                                <span class="fs-5 d-none d-sm-inline">WebMediaPlayer</span>
                             </a>
-                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <hr class="w-100">
+                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
+                                <li class="nav-item w-100">
+                                    <a href="./application.php" class="nav-link text-white" aria-current="page">
+                                        <img src="../assets/homew.png" alt="home" class="bi me-2" width="16" height="16">
+                                        <span class="d-none d-sm-inline">Home</span>
+                                    </a>
+                                </li>
                                 <li class="nav-item w-100">
                                     <a href="#" class="nav-link text-white">
+                                        <img src="../assets/srcw.png" alt="search" class="bi me-2" width="16" height="16">
+                                        <span class="d-none d-sm-inline">Cerca</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item w-100">
+                                    <a href="#" class="nav-link active text-white">
                                         <img src="../assets/upload.png" alt="upload" class="bi me-2" width="16" height="16">
                                         <span class="d-none d-sm-inline">Carica brano</span>
                                     </a>
                                 </li>
                                 <li class="nav-item w-100">
-                                    <a href="#" class="nav-link text-white">
+                                    <a href="./library.php" class="nav-link text-white">
                                         <img src="../assets/libw.png" alt="upload" class="bi me-2" width="16" height="16">
                                         <span class="d-none d-sm-inline">La tua libreria</span>
                                     </a>
@@ -207,7 +221,7 @@ $pfp = $user['immagine'];
                         </div>
                     </div>
                     <div class="col py-3">
-                        <div class="container">
+                        <div class="container mx-4 my-4">
                             <h2>Carica un nuovo brano</h2>
                             <?php if (isset($uploadError) && $uploadError): ?>
                                 <div class="alert alert-danger" role="alert">
