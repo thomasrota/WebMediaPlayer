@@ -11,7 +11,6 @@ if (!isset($conn) || $conn == null) {
 
 $user_id = $_SESSION['user_id'];
 
-// Recupera artisti
 $query = "SELECT DISTINCT a.id, a.nome, a.immagine 
           FROM WBM_artista a
           JOIN WBM_artista_album aa ON a.id = aa.id_artista
@@ -48,8 +47,48 @@ $pfp = $user['immagine'];
     <link rel="stylesheet" href="../css/style.css?v=4.15">
     <link rel="icon" href="../assets/logo.png" type="image/x-icon">
     <style>
-        .card {
-            width: 18rem;
+        .artist-list {
+            max-height: calc(100vh - 56px);
+            overflow-y: auto;
+            width: 85%;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .artist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #1a1a1a;
+            border-radius: 0.25rem;
+        }
+
+        .artist-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .artist-info {
+            flex-grow: 1;
+        }
+
+        .artist-stats {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        .btn-close {
+            filter: invert(1);
         }
 
         .modal-body {
@@ -79,7 +118,6 @@ $pfp = $user['immagine'];
 
 <body>
     <header>
-        <!-- place navbar here -->
     </header>
     <main>
         <div class="container-fluid">
@@ -108,7 +146,7 @@ $pfp = $user['immagine'];
                                 </a>
                             </li>
                             <li class="nav-item w-100">
-                                <a href="./uploadTrack.php" class="nav-link text-white">
+                                <a href="#" class="nav-link text-white">
                                     <img src="../assets/uploadw.png" alt="upload" class="bi me-2" width="16"
                                         height="16">
                                     <span class="d-none d-sm-inline">Carica brano</span>
@@ -143,18 +181,29 @@ $pfp = $user['immagine'];
                 <div class="col py-3">
                     <div class="container mx-4 my-4">
                         <h2>La tua libreria</h2>
-                        <div class="row flex-nowrap overflow-auto mb-4">
+                        <div class="artist-list">
                             <?php foreach ($artists as $artist): ?>
-                                <div class="col-12 col-md-6 col-lg-4">
-                                    <div class="card h-100">
-                                        <img src="../artistimg/<?php echo htmlspecialchars($artist['immagine']); ?>"
-                                            class="card-img-top" alt="<?php echo htmlspecialchars($artist['nome']); ?>">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><?php echo htmlspecialchars($artist['nome']); ?></h5>
-                                            <button class="btn btn-primary"
-                                                onclick="showAlbums('<?php echo $artist['id']; ?>')">Mostra Album</button>
-                                        </div>
+                                <?php
+                                $query = "SELECT COUNT(DISTINCT al.id) AS album_count, COUNT(b.id) AS track_count
+                                          FROM WBM_album al
+                                          JOIN WBM_artista_album aa ON al.id = aa.id_album
+                                          JOIN WBM_brano b ON al.id = b.id_album
+                                          WHERE aa.id_artista = ?";
+                                $stmt = $conn->prepare($query);
+                                $stmt->bindValue(1, $artist['id'], PDO::PARAM_INT);
+                                $stmt->execute();
+                                $counts = $stmt->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <div class="artist-item">
+                                    <img src="../artistimg/<?php echo htmlspecialchars($artist['immagine']); ?>"
+                                        alt="<?php echo htmlspecialchars($artist['nome']); ?>">
+                                    <div class="artist-info">
+                                        <h5><?php echo htmlspecialchars($artist['nome']); ?></h5>
+                                        <p class="artist-stats"><?php echo $counts['album_count']; ?> album,
+                                            <?php echo $counts['track_count']; ?> tracce</p>
                                     </div>
+                                    <button class="btn btn-primary btn-lg"
+                                        onclick="showAlbums('<?php echo $artist['id']; ?>')">Mostra Album</button>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -164,7 +213,6 @@ $pfp = $user['immagine'];
         </div>
     </main>
 
-    <!-- Modal -->
     <div class="modal fade" id="albumsModal" tabindex="-1" aria-labelledby="albumsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -173,7 +221,6 @@ $pfp = $user['immagine'];
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="albumsModalBody">
-                    <!-- Album content will be loaded here -->
                 </div>
             </div>
         </div>
@@ -181,38 +228,44 @@ $pfp = $user['immagine'];
 
     <script>
         function showAlbums(artistId) {
-            // Fetch albums and tracks from the server
             fetch('getAlbums.php?artist_id=' + artistId)
                 .then(response => response.json())
                 .then(data => {
-                    let albumsHtml = '';
-                    data.albums.forEach(album => {
-                        albumsHtml += `
-                        <div class="album-section">
-                            <h5>${album.titolo} &bull; ${album.artisti} &bull; ${album.anno}</h5>
-                            <img src="../albumimg/${album.immagine}" class="img-fluid" alt="${album.titolo}">
-                            <hr>
-                            <h6>Brani</h6>
-                            <ul>`;
-                        album.tracks.forEach(track => {
+                    if (data.albums && data.albums.length > 0) {
+                        let albumsHtml = '';
+                        data.albums.forEach(album => {
                             albumsHtml += `
-                            <li>
-                                <p><strong>${track.titolo}</strong></p>
-                                <audio controls>
-                                    <source src="../mp3/${track.mp3}" type="audio/mpeg">
-                                    Il tuo browser non supporta l'elemento audio.
-                                </audio>
-                            </li>`;
+                            <div class="album-section">
+                                <h5>${album.titolo} &bull; ${album.artisti} &bull; ${album.anno}</h5>
+                                <img src="../albumimg/${album.immagine}" class="img-fluid" alt="${album.titolo}">
+                                <hr>
+                                <h6>Brani</h6>
+                                <ul>`;
+                            album.tracks.forEach(track => {
+                                albumsHtml += `
+                                <li>
+                                    <p><strong>${track.titolo}</strong></p>
+                                    <audio controls>
+                                        <source src="../mp3/${track.mp3}" type="audio/mpeg">
+                                        Il tuo browser non supporta l'elemento audio.
+                                    </audio>
+                                </li>`;
+                            });
+                            albumsHtml += `
+                                </ul>
+                            </div>
+                            <hr>`;
                         });
-                        albumsHtml += `
-                            </ul>
-                        </div>
-                        <hr>`;
-                    });
-                    document.getElementById('albumsModalBody').innerHTML = albumsHtml;
-                    var myModal = new bootstrap.Modal(document.getElementById('albumsModal'));
-                    myModal.show();
-                });
+                        document.getElementById('albumsModalBody').innerHTML = albumsHtml;
+                        var myModal = new bootstrap.Modal(document.getElementById('albumsModal'));
+                        myModal.show();
+                    } else {
+                        document.getElementById('albumsModalBody').innerHTML = '<p>Nessun album trovato.</p>';
+                        var myModal = new bootstrap.Modal(document.getElementById('albumsModal'));
+                        myModal.show();
+                    }
+                })
+                .catch(error => console.error('Error fetching albums:', error));
         }
     </script>
 

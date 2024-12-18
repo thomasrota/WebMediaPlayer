@@ -134,11 +134,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $artistId = $stmt->fetchColumn();
                     }
 
-                    // Link artist to album
-                    $stmt = $conn->prepare("INSERT INTO WBM_artista_album (id_artista, id_album) VALUES (:artistId, :albumId)");
+                    // Link artist to album if not exists
+                    $stmt = $conn->prepare("SELECT COUNT(*) FROM WBM_artista_album WHERE id_artista = :artistId AND id_album = :albumId");
                     $stmt->bindParam(':artistId', $artistId, PDO::PARAM_INT);
                     $stmt->bindParam(':albumId', $albumId, PDO::PARAM_INT);
                     $stmt->execute();
+                    $exists = $stmt->fetchColumn();
+                    if (!$exists) {
+                        $stmt = $conn->prepare("INSERT INTO WBM_artista_album (id_artista, id_album) VALUES (:artistId, :albumId)");
+                        $stmt->bindParam(':artistId', $artistId, PDO::PARAM_INT);
+                        $stmt->bindParam(':albumId', $albumId, PDO::PARAM_INT);
+                        $stmt->execute();
+                    }
                 }
 
                 // Link track to user
@@ -147,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bindParam(':trackId', $trackId, PDO::PARAM_INT);
                 $stmt->execute();
 
-                header("Location: application.php");
+                header("Location: library.php");
                 exit();
             } catch (PDOException $e) {
                 $uploadError = "Errore di sistema: " . $e->getMessage();
