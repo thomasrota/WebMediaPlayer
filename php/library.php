@@ -50,7 +50,7 @@ $pfp = $user['immagine'];
         .artist-list {
             max-height: calc(100vh - 56px);
             overflow-y: auto;
-            width: 85%;
+            width: 80%;
             background-color: #000;
             color: #fff;
         }
@@ -70,6 +70,22 @@ $pfp = $user['immagine'];
             height: 50px;
             border-radius: 50%;
             margin-right: 1rem;
+            position: relative;
+        }
+
+        .artist-item:hover .edit-icon {
+            display: block;
+        }
+
+        .edit-icon {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 2px;
+            cursor: pointer;
         }
 
         .artist-info {
@@ -112,6 +128,29 @@ $pfp = $user['immagine'];
         .album-section hr {
             margin-top: 1rem;
             margin-bottom: 1rem;
+        }
+
+        .album-section img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .album-section:hover .edit-icon {
+            display: block;
+        }
+
+        .album-section .edit-icon {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -195,12 +234,19 @@ $pfp = $user['immagine'];
                                 $counts = $stmt->fetch(PDO::FETCH_ASSOC);
                                 ?>
                                 <div class="artist-item">
-                                    <img src="../artistimg/<?php echo htmlspecialchars($artist['immagine']); ?>"
-                                        alt="<?php echo htmlspecialchars($artist['nome']); ?>">
+                                    <div style="position: relative;">
+                                        <img src="../artistimg/<?php echo htmlspecialchars($artist['immagine']); ?>"
+                                            alt="<?php echo htmlspecialchars($artist['nome']); ?>">
+                                        <span class="edit-icon"
+                                            onclick="editArtist('<?php echo $artist['id']; ?>', '<?php echo htmlspecialchars($artist['nome']); ?>')">
+                                            <img src="../assets/edit.png" alt="Edit" width="16" height="16">
+                                        </span>
+                                    </div>
                                     <div class="artist-info">
                                         <h5><?php echo htmlspecialchars($artist['nome']); ?></h5>
                                         <p class="artist-stats"><?php echo $counts['album_count']; ?> album,
-                                            <?php echo $counts['track_count']; ?> tracce</p>
+                                            <?php echo $counts['track_count']; ?> tracce
+                                        </p>
                                     </div>
                                     <button class="btn btn-primary btn-lg"
                                         onclick="showAlbums('<?php echo $artist['id']; ?>')">Mostra Album</button>
@@ -226,6 +272,63 @@ $pfp = $user['immagine'];
         </div>
     </div>
 
+    <div class="modal fade" id="editArtistModal" tabindex="-1" aria-labelledby="editArtistModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editArtistModalLabel">Modifica Artista</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editArtistForm" enctype="multipart/form-data">
+                        <input type="hidden" id="editArtistId" name="editArtistId">
+                        <div class="mb-3">
+                            <label for="editArtistName" class="form-label">Nome Artista</label>
+                            <input class="form-control" type="text" id="editArtistName" name="editArtistName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editArtistImage" class="form-label">Seleziona Immagine</label>
+                            <input class="form-control" type="file" id="editArtistImage" name="editArtistImage"
+                                accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salva</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editAlbumModal" tabindex="-1" aria-labelledby="editAlbumModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAlbumModalLabel">Modifica Album</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editAlbumForm" enctype="multipart/form-data">
+                        <input type="hidden" id="editAlbumId" name="editAlbumId">
+                        <div class="mb-3">
+                            <label for="editAlbumTitle" class="form-label">Titolo Album</label>
+                            <input class="form-control" type="text" id="editAlbumTitle" name="editAlbumTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAlbumYear" class="form-label">Anno di Uscita</label>
+                            <input class="form-control" type="number" id="editAlbumYear" name="editAlbumYear" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAlbumImage" class="form-label">Seleziona Immagine</label>
+                            <input class="form-control" type="file" id="editAlbumImage" name="editAlbumImage"
+                                accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salva</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function showAlbums(artistId) {
             fetch('getAlbums.php?artist_id=' + artistId)
@@ -235,26 +338,29 @@ $pfp = $user['immagine'];
                         let albumsHtml = '';
                         data.albums.forEach(album => {
                             albumsHtml += `
-                            <div class="album-section">
-                                <h5>${album.titolo} &bull; ${album.artisti} &bull; ${album.anno}</h5>
+                        <div class="album-section">
+                            <h5>${album.titolo} &bull; ${album.artisti} &bull; ${album.anno}</h5>
+                            <div style="position: relative;">
                                 <img src="../albumimg/${album.immagine}" class="img-fluid" alt="${album.titolo}">
-                                <hr>
-                                <h6>Brani</h6>
-                                <ul>`;
+                            </div>
+                            <button class="btn btn-secondary mt-2" onclick="editAlbum('${album.id}', '${album.titolo}', '${album.anno}')">Modifica Album</button>
+                            <hr>
+                            <h6>Brani</h6>
+                            <ul>`;
                             album.tracks.forEach(track => {
                                 albumsHtml += `
-                                <li>
-                                    <p><strong>${track.titolo}</strong></p>
-                                    <audio controls>
-                                        <source src="../mp3/${track.mp3}" type="audio/mpeg">
-                                        Il tuo browser non supporta l'elemento audio.
-                                    </audio>
-                                </li>`;
+                            <li>
+                                <p><strong>${track.titolo}</strong></p>
+                                <audio controls>
+                                    <source src="../mp3/${track.mp3}" type="audio/mpeg">
+                                    Il tuo browser non supporta l'elemento audio.
+                                </audio>
+                            </li>`;
                             });
                             albumsHtml += `
-                                </ul>
-                            </div>
-                            <hr>`;
+                            </ul>
+                        </div>
+                        <hr>`;
                         });
                         document.getElementById('albumsModalBody').innerHTML = albumsHtml;
                         var myModal = new bootstrap.Modal(document.getElementById('albumsModal'));
@@ -267,6 +373,57 @@ $pfp = $user['immagine'];
                 })
                 .catch(error => console.error('Error fetching albums:', error));
         }
+
+        function editArtist(artistId, artistName) {
+            document.getElementById('editArtistId').value = artistId;
+            document.getElementById('editArtistName').value = artistName;
+            var myModal = new bootstrap.Modal(document.getElementById('editArtistModal'));
+            myModal.show();
+        }
+
+        function editAlbum(albumId, albumTitle, albumYear) {
+            document.getElementById('editAlbumId').value = albumId;
+            document.getElementById('editAlbumTitle').value = albumTitle;
+            document.getElementById('editAlbumYear').value = albumYear;
+            var myModal = new bootstrap.Modal(document.getElementById('editAlbumModal'));
+            myModal.show();
+        }
+
+        document.getElementById('editArtistForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('editArtist.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Errore durante la modifica dell\'artista.');
+                    }
+                })
+                .catch(error => console.error('Error editing artist:', error));
+        });
+
+        document.getElementById('editAlbumForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('editAlbum.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Errore durante la modifica dell\'album.');
+                    }
+                })
+                .catch(error => console.error('Error editing album:', error));
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
