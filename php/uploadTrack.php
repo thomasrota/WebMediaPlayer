@@ -4,7 +4,7 @@ if (!isset($conn) || $conn == null) {
     require 'conf.php';
 }
 
-require 'vendor/autoload.php'; // Assumendo che tu stia usando la libreria duncan3dc/metaaudio
+require 'vendor/autoload.php';
 
 $uploadError = '';
 $uploadSuccess = '';
