@@ -197,6 +197,11 @@ $pfp = $user['immagine'];
         rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css?v=4.15">
     <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <style>
+        .input-box {
+            max-width: 30vw;
+        }
+    </style>
 </head>
 
 <body>
@@ -277,12 +282,12 @@ $pfp = $user['immagine'];
                         <form action="uploadTrack.php" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="trackFile" class="form-label">File del brano</label>
-                                <input type="file" class="form-control" id="trackFile" name="trackFile"
+                                <input type="file" class="form-control input-box" id="trackFile" name="trackFile"
                                     accept=".mp3,.wav" required>
                             </div>
                             <div class="mb-3">
                                 <label for="albumImage" class="form-label">Immagine dell'album (opzionale)</label>
-                                <input type="file" class="form-control" id="albumImage" name="albumImage"
+                                <input type="file" class="form-control input-box" id="albumImage" name="albumImage"
                                     accept=".jpg,.jpeg,.png">
                             </div>
                             <button type="submit" class="btn btn-primary">Carica</button>
@@ -292,22 +297,22 @@ $pfp = $user['immagine'];
                             <form action="uploadTrack.php" method="post">
                                 <div class="mb-3">
                                     <label for="trackTitle" class="form-label">Titolo del brano</label>
-                                    <input type="text" class="form-control" id="trackTitle" name="trackTitle"
+                                    <input type="text" class="form-control input-box" id="trackTitle" name="trackTitle"
                                         value="<?php echo htmlspecialchars($trackTitle); ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="artist" class="form-label">Artista</label>
-                                    <input type="text" class="form-control" id="artist" name="artist"
+                                    <input type="text" class="form-control input-box" id="artist" name="artist"
                                         value="<?php echo htmlspecialchars($artist); ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="album" class="form-label">Album</label>
-                                    <input type="text" class="form-control" id="album" name="album"
+                                    <input type="text" class="form-control input-box" id="album" name="album"
                                         value="<?php echo htmlspecialchars($album); ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="year" class="form-label">Anno</label>
-                                    <input type="text" class="form-control" id="year" name="year"
+                                    <input type="text" class="form-control input-box" id="year" name="year"
                                         value="<?php echo htmlspecialchars($year); ?>">
                                 </div>
                                 <input type="hidden" name="filePath"
